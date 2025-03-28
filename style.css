@@ -544,3 +544,99 @@ select::-ms-expand {
 .btn-danger:hover {
     background-color: #c82333;
 }
+
+/* Mobile-first styles */
+.mobile-tabs {
+    display: none;
+    width: 100%;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px;
+    position: sticky;
+    top: 60px;
+    z-index: 100;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #6c757d;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .mobile-tabs {
+        display: flex;
+        justify-content: space-around;
+        gap: 8px;
+    }
+
+    .content {
+        padding: 12px;
+        height: calc(100vh - 108px); /* Account for header and tabs */
+        flex-direction: column;
+    }
+
+    .section {
+        display: none;
+        min-width: unset;
+        width: 100%;
+    }
+
+    .section.active {
+        display: flex;
+    }
+
+    .card-header {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .card-header-left {
+        width: 100%;
+    }
+
+    .card-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .nutrition-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-actions {
+        display: none; /* Hide Excel buttons on mobile */
+    }
+
+    .modal-content {
+        width: 90%;
+        max-height: 90vh;
+        margin: 5vh auto;
+    }
+
+    .nutrients-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .serving-size {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .serving-size input,
+    .serving-size select {
+        width: 100%;
+    }
+}
