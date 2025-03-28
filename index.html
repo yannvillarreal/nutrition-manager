@@ -21,11 +21,12 @@
         <nav class="mobile-tabs">
             <button onclick="showSection('ingredients')" class="tab-btn active">Ingredients</button>
             <button onclick="showSection('recipes')" class="tab-btn">Recipes</button>
-            <div class="mobile-actions">
-                <button onclick="showIngredientForm()" class="btn-primary mobile-add-btn" data-section="ingredients">+</button>
-                <button onclick="showRecipeForm()" class="btn-primary mobile-add-btn" data-section="recipes">+</button>
-            </div>
         </nav>
+
+        <div class="mobile-section-actions">
+            <button onclick="showIngredientForm()" class="btn-primary mobile-action-btn" data-section="ingredients">Add Ingredient</button>
+            <button onclick="showRecipeForm()" class="btn-primary mobile-action-btn" data-section="recipes">Add Recipe</button>
+        </div>
 
         <main>
             <div class="content">
