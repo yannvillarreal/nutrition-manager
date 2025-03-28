@@ -10,10 +10,11 @@
     --shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-* {
+html, body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -31,7 +32,7 @@ body.mobile-device .container {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 body.mobile-device header {
@@ -196,14 +197,72 @@ body.mobile-device .desktop-only {
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+main {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    gap: 20px;
     padding: 20px;
+    height: calc(100vh - 60px); /* Subtract header height */
+    overflow: hidden;
+}
+
+.section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    min-width: 0; /* Allow flex items to shrink below content size */
+}
+
+.section-header {
+    padding: 1rem;
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.section-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    min-height: 0; /* Allow content to scroll */
+}
+
+#ingredients-list,
+#recipes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 20px;
+}
+
+.card {
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
 }
 
 header {
     background-color: #c5e0d7;
-    padding: 1rem 2rem;
+    padding: 0rem 2rem;
     border-bottom: 1px solid #dee2e6;
     display: flex;
     justify-content: space-between;
@@ -723,96 +782,135 @@ select::-ms-expand {
 /* Mobile-first styles */
 .mobile-tabs {
     display: none;
-    width: 100%;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-    padding: 8px;
-    position: sticky;
-    top: 60px;
-    z-index: 100;
 }
 
-.tab-btn {
-    flex: 1;
-    padding: 8px 16px;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: #6c757d;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.mobile-section-actions {
+    display: none;
 }
 
-.tab-btn.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-}
-
-/* Responsive styles */
 @media (max-width: 768px) {
     .mobile-tabs {
         display: flex;
-        justify-content: space-around;
-        gap: 8px;
+        padding: 0;
+        background: var(--light-gray);
+        border-bottom: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: 12px;
+        background: none;
+        border: none;
+        color: var(--secondary-color);
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+    }
+
+    .mobile-section-actions {
+        display: flex;
+        padding: 8px 16px;
+        background: white;
+        border-bottom: 1px solid var(--border-color);
+        justify-content: flex-end;
+        flex-shrink: 0;
+    }
+
+    .mobile-action-btn {
+        display: none;
+    }
+
+    .section.active[id="ingredients"] ~ .mobile-section-actions .mobile-action-btn[data-section="ingredients"] {
+        display: block;
+    }
+
+    .section.active[id="recipes"] ~ .mobile-section-actions .mobile-action-btn[data-section="recipes"] {
+        display: block;
+    }
+
+    .desktop-only {
+        display: none;
     }
 
     .content {
-        padding: 12px;
-        height: calc(100vh - 108px); /* Account for header and tabs */
         flex-direction: column;
     }
 
     .section {
         display: none;
-        min-width: unset;
-        width: 100%;
+        height: auto;
     }
 
     .section.active {
         display: flex;
+        flex: 1;
     }
 
-    .card-header {
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .card-header-left {
-        width: 100%;
-    }
-
-    .card-actions {
-        width: 100%;
-        justify-content: flex-end;
-    }
-
-    .nutrition-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .header-actions {
-        display: none; /* Hide Excel buttons on mobile */
-    }
-
-    .modal-content {
-        width: 90%;
-        max-width: none;
+    .container {
         height: 100vh;
-        margin: 5vh auto;
-    }
-
-    .nutrients-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .serving-size {
+        display: flex;
         flex-direction: column;
-        align-items: stretch;
     }
 
-    .serving-size input,
-    .serving-size select {
-        width: 100%;
+    header {
+        flex-shrink: 0;
+    }
+
+    .mobile-tabs {
+        flex-shrink: 0;
+    }
+
+    .mobile-section-actions {
+        flex-shrink: 0;
+    }
+
+    main {
+        flex: 1;
+        min-height: 0; /* Important for nested flex scrolling */
+    }
+
+    .content {
+        flex: 1;
+        min-height: 0; /* Important for nested flex scrolling */
+    }
+
+    .section.active {
+        display: flex;
+        flex: 1;
+        min-height: 0; /* Important for nested flex scrolling */
+    }
+
+    .section-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 1rem;
+        padding-bottom: 20px;
+        height: auto;
+        min-height: 0; /* Important for nested flex scrolling */
+    }
+
+    #ingredients-list,
+    #recipes-list {
+        height: auto;
+        min-height: 0;
+        height: 100%;
+        overflow-y: auto;
+        padding-bottom: 20px; /* Add space at the bottom */
+    }
+
+    /* Ensure cards don't get cut off */
+    .card {
+        margin-bottom: 16px;
+    }
+
+    .card:last-child {
+        margin-bottom: 0;
     }
 }
