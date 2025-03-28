@@ -606,3 +606,21 @@ function toggleRecipeDetails(id) {
         expandIcon.textContent = '▼';
     }
 }
+
+function showSection(sectionId) {
+    // Update mobile tab buttons
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(sectionId)) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Update sections
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById(sectionId).classList.add('active');
+}
