@@ -51,6 +51,67 @@ body.mobile-device .mobile-tabs {
     background: var(--light-gray);
     border-bottom: 1px solid var(--border-color);
     z-index: 999;
+    padding: 0;
+    align-items: center;
+}
+
+body.mobile-device .tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+body.mobile-device .tab-btn.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+body.mobile-device .mobile-actions {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+body.mobile-device .mobile-add-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+body.mobile-device .mobile-add-btn[data-section="ingredients"] {
+    display: none;
+}
+
+body.mobile-device .mobile-add-btn[data-section="recipes"] {
+    display: none;
+}
+
+body.mobile-device .section.active[id="ingredients"] ~ .mobile-tabs .mobile-add-btn[data-section="ingredients"] {
+    display: flex;
+}
+
+body.mobile-device .section.active[id="recipes"] ~ .mobile-tabs .mobile-add-btn[data-section="recipes"] {
+    display: flex;
+}
+
+body.mobile-device .mobile-add-btn:active {
+    transform: scale(0.95);
 }
 
 body.mobile-device main {
@@ -62,14 +123,20 @@ body.mobile-device main {
 
 body.mobile-device .section {
     display: none;
+    padding: 0;
+    margin: 0;
     height: auto;
     min-height: calc(100vh - 108px);
-    margin: 0 auto;
-    padding: 20px;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 body.mobile-device .section.active {
     display: block;
+}
+
+body.mobile-device .section-header {
+    display: none;
 }
 
 body.mobile-device .section-content {
