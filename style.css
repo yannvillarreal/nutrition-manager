@@ -1,8 +1,11 @@
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-gray: #f8f9fa;
+    --border-color: #dee2e6;
     --background-color: #f5f6fa;
-    --border-color: #dcdde1;
     --text-color: #2d3436;
     --shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -18,6 +21,109 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
+}
+
+body.mobile-device {
+    overflow: hidden;
+}
+
+body.mobile-device .container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body.mobile-device header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+body.mobile-device .mobile-tabs {
+    display: flex;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--light-gray);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 999;
+}
+
+body.mobile-device main {
+    margin-top: 108px; /* header + tabs height */
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.mobile-device .section {
+    display: none;
+    height: auto;
+    min-height: calc(100vh - 108px);
+}
+
+body.mobile-device .section.active {
+    display: block;
+}
+
+body.mobile-device .section-content {
+    padding: 16px;
+}
+
+body.mobile-device .card {
+    margin-bottom: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+body.mobile-device .card-header {
+    padding: 12px;
+    flex-direction: column;
+    gap: 8px;
+}
+
+body.mobile-device .card-content {
+    padding: 12px;
+}
+
+body.mobile-device .nutrient-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+body.mobile-device .nutrient-input label {
+    flex: 1;
+    margin: 0;
+}
+
+body.mobile-device .nutrient-input input {
+    width: 100px;
+}
+
+body.mobile-device .modal-content {
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+}
+
+body.mobile-device .modal-content form {
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding: 16px;
+}
+
+/* Hide desktop-only elements on mobile */
+body.mobile-device .header-actions,
+body.mobile-device .desktop-only {
+    display: none;
 }
 
 .container {
@@ -622,7 +728,8 @@ select::-ms-expand {
 
     .modal-content {
         width: 90%;
-        max-height: 90vh;
+        max-width: none;
+        height: 100vh;
         margin: 5vh auto;
     }
 
