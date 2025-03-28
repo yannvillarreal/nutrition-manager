@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Nutrition Manager</h1>
+        <div class="header-actions">
+            <button onclick="document.getElementById('excel-import').click()" class="btn-secondary">Import Excel</button>
+            <input type="file" id="excel-import" accept=".xlsx" style="display: none" onchange="importFromExcel(event)">
+            <button onclick="exportToExcel()" class="btn-secondary">Export Excel</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="content">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Ingredients</h2>
+                    <button onclick="showIngredientForm()" class="btn-primary">Add Ingredient</button>
+                </div>
+                <div class="section-content" id="ingredients-list">
+                    <!-- Ingredients will be rendered here -->
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <h2>Recipes</h2>
+                    <button onclick="showRecipeForm()" class="btn-primary">Add Recipe</button>
+                </div>
+                <div class="section-content" id="recipes-list">
+                    <!-- Recipes will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Ingredient Form Modal -->
+    <div id="ingredient-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="ingredient-form-title">Add Ingredient</h2>
+            <form id="ingredient-form" onsubmit="saveIngredient(event)">
+                <input type="hidden" id="ingredient-id">
+                <div class="form-group">
+                    <label for="ingredient-name">Name:</label>
+                    <input type="text" id="ingredient-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Serving Size:</label>
+                    <div class="serving-size">
+                        <input type="number" id="serving-amount" required min="0" step="0.1">
+                        <select id="serving-unit" required>
+                            <option value="g">grams (g)</option>
+                            <option value="ml">milliliters (ml)</option>
+                            <option value="oz">ounces (oz)</option>
+                            <option value="cup">cups</option>
+                            <option value="tbsp">tablespoons</option>
+                            <option value="tsp">teaspoons</option>
+                            <option value="piece">pieces</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h3>Nutrients (per serving)</h3>
+                    <div class="nutrients-grid">
+                        <div class="nutrient-column">
+                            <div class="nutrient-input">
+                                <label for="calories">Calories:</label>
+                                <input type="number" id="calories" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="protein">Protein (g):</label>
+                                <input type="number" id="protein" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="carbs">Carbs (g):</label>
+                                <input type="number" id="carbs" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="fat">Total Fat (g):</label>
+                                <input type="number" id="fat" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="fat-saturated">Saturated Fat (g):</label>
+                                <input type="number" id="fat-saturated" min="0" step="0.1" required>
+                            </div>
+                        </div>
+                        <div class="nutrient-column">
+                            <div class="nutrient-input">
+                                <label for="fat-trans">Trans Fat (g):</label>
+                                <input type="number" id="fat-trans" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="cholesterol">Cholesterol (mg):</label>
+                                <input type="number" id="cholesterol" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="sodium">Sodium (mg):</label>
+                                <input type="number" id="sodium" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="fiber">Fiber (g):</label>
+                                <input type="number" id="fiber" min="0" step="0.1" required>
+                            </div>
+                            <div class="nutrient-input">
+                                <label for="sugar">Sugar (g):</label>
+                                <input type="number" id="sugar" min="0" step="0.1" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('ingredient-modal')" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recipe Form Modal -->
+    <div id="recipe-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="recipe-form-title">Add Recipe</h2>
+            <form id="recipe-form" onsubmit="saveRecipe(event)">
+                <input type="hidden" id="recipe-id">
+                <div class="form-group">
+                    <label for="recipe-title">Title:</label>
+                    <input type="text" id="recipe-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-instructions">Instructions:</label>
+                    <textarea id="recipe-instructions" required></textarea>
+                </div>
+                <div class="form-group">
+                    <h3>Ingredients</h3>
+                    <div id="recipe-ingredients"></div>
+                    <button type="button" onclick="addIngredientToRecipe()" class="btn-secondary">Add Ingredient</button>
+                </div>
+                <div class="form-group">
+                    <h3>Nutritional Summary</h3>
+                    <div id="recipe-nutrition" class="nutrition-summary"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('recipe-modal')" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
