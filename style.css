@@ -64,6 +64,8 @@ body.mobile-device .section {
     display: none;
     height: auto;
     min-height: calc(100vh - 108px);
+    margin: 0 auto;
+    padding: 20px;
 }
 
 body.mobile-device .section.active {
