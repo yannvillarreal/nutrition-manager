@@ -122,8 +122,43 @@ function importFromExcel(event) {
     reader.readAsArrayBuffer(file);
 }
 
+// Device detection
+function isMobileDevice() {
+    return (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        (window.innerWidth <= 768)
+    );
+}
+
+// Initialize mobile layout if needed
+function initializeMobileLayout() {
+    const isMobile = isMobileDevice();
+    document.body.classList.toggle('mobile-device', isMobile);
+    
+    // Show only ingredients section by default on mobile
+    if (isMobile) {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => section.classList.remove('active'));
+        document.getElementById('ingredients').classList.add('active');
+        
+        // Update tab buttons
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        tabButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.textContent.toLowerCase().includes('ingredients')) {
+                btn.classList.add('active');
+            }
+        });
+    }
+}
+
+// Listen for orientation changes and window resizes
+window.addEventListener('resize', initializeMobileLayout);
+window.addEventListener('orientationchange', initializeMobileLayout);
+
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    initializeMobileLayout();
     initializeData();
 });
 
