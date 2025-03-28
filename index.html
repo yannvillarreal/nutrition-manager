@@ -17,9 +17,14 @@
         </div>
     </header>
 
+    <nav class="mobile-tabs">
+        <button onclick="showSection('ingredients')" class="tab-btn active">Ingredients</button>
+        <button onclick="showSection('recipes')" class="tab-btn">Recipes</button>
+    </nav>
+
     <main>
         <div class="content">
-            <div class="section">
+            <div id="ingredients" class="section active">
                 <div class="section-header">
                     <h2>Ingredients</h2>
                     <button onclick="showIngredientForm()" class="btn-primary">Add Ingredient</button>
@@ -29,7 +34,7 @@
                 </div>
             </div>
             
-            <div class="section">
+            <div id="recipes" class="section">
                 <div class="section-header">
                     <h2>Recipes</h2>
                     <button onclick="showRecipeForm()" class="btn-primary">Add Recipe</button>
